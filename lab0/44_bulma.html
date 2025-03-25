@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel "Student"</title>
+    <!-- Bulma CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+    <style>
+        html, body {
+            height: 100%;
+        }
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+        .main-content {
+            flex-grow: 1;
+        }
+        .navbar-dropdown {
+            display: none;
+        }
+        .navbar-item.has-dropdown:hover .navbar-dropdown {
+            display: block;
+        }
+        .custom-card-image {
+            height: 250px;
+            object-fit: cover;
+        }
+        .main-image {
+            height: 400px;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar is-primary is-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-brand">
+                <a class="navbar-item has-text-weight-bold" href="#">
+                    Hotel "Student"
+                </a>
+
+                <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="mainNavbar">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+            </div>
+
+            <div id="mainNavbar" class="navbar-menu">
+                <div class="navbar-end">
+                    <div class="navbar-item has-dropdown is-hoverable">
+                        <a class="navbar-link">Oferta</a>
+                        <div class="navbar-dropdown">
+                            <a class="navbar-item" href="#">Pokoje</a>
+                            <a class="navbar-item" href="#">Restauracja</a>
+                        </div>
+                    </div>
+                    <a class="navbar-item" href="#">Zarezerwuj</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content container mt-6">
+        <div class="columns is-multiline">
+            <div class="column is-12">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="mb-4">
+                            <img src="./static/KrkMainSq.jpg" alt="Kraków Main Square" class="main-image w-100">
+                        </div>
+                        <h2 class="title is-4 mb-4">Dostępne terminy</h2>
+                        <div class="table-container">
+                            <table class="table is-fullwidth is-bordered">
+                                <thead>
+                                    <tr>
+                                        <th class="has-text-centered">Miesiąc</th>
+                                        <th class="has-text-centered">Dni</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="has-text-centered">VII</td>
+                                        <td class="has-text-centered">14-21, 30-31</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="has-text-centered">VIII</td>
+                                        <td class="has-text-centered">1-12</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="mt-4">
+                                <button class="button is-primary is-fullwidth">Zarezerwuj</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="column is-6">
+                <div class="card h-100">
+                    <div class="card-content">
+                        <h2 class="title is-4 mb-4">Opcje noclegu</h2>
+                        <div class="columns is-multiline">
+                            <div class="column is-12">
+                                <h3 class="subtitle is-5 mb-2">Pokój Ekonomiczny</h3>
+                                <div class="mb-3">
+                                    <img src="./static/hotelRoom.webp" alt="Pokój ekonomiczny" class="custom-card-image w-100">
+                                </div>
+                                <ul class="pl-4">
+                                    <li>Do 2 osób</li>
+                                    <li>Wspólna łazienka</li>
+                                    <li>Cena: 50 zł/noc</li>
+                                </ul>
+                            </div>
+                            <div class="column is-12">
+                                <h3 class="subtitle is-5 mb-2">Pokój Standard</h3>
+                                <div class="mb-3">
+                                    <img src="./static/hotelRoomV2.jpg" alt="Pokój standard" class="custom-card-image w-100">
+                                </div>
+                                <ul class="pl-4">
+                                    <li>Do 3 osób</li>
+                                    <li>Własna łazienka</li>
+                                    <li>Cena: 80 zł/noc</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="column is-6">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="mb-5">
+                            <h2 class="title is-4 mb-4">Adres</h2>
+                            <div class="mb-3">
+                                <img src="./static/adress.jpg" alt="Lokalizacja hotelu" class="custom-card-image w-100">
+                            </div>
+                            <p><strong>Adres:</strong> ul. Studencka 12</p>
+                            <p><strong>Miasto:</strong> Kraków</p>
+                            <p><strong>Kod pocztowy:</strong> 30-100</p>
+                        </div>
+                        
+                        <div>
+                            <h2 class="title is-4 mb-4">Dojazd</h2>
+                            <div class="mb-3">
+                                <img src="./static/taxi.jpeg" alt="Lokalizacja hotelu" class="custom-card-image w-100">
+                            </div>
+                            <p><strong>Transport:</strong> Lotnisko Kraków Balice</p>
+                            <p><strong>Taksówki:</strong> Bolt, Uber</p>
+                            <p><strong>Komunikacja miejska:</strong> MPK Kraków</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="column is-12">
+                <div class="card">
+                    <div class="card-content">
+                        <h2 class="title is-4 mb-4">Atrakcje miasta</h2>
+                        <div class="video-container">
+                            <iframe 
+                                src="https://www.youtube.com/embed/6eUvzOFR2nQ" 
+                                title="Atrakcje Krakowa" 
+                                allowfullscreen
+                                class="has-ratio"
+                            ></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="footer has-background-primary has-text-white py-4">
+        <div class="content has-text-right container">
+            <span>&copy; Hotel studencki</span>
+        </div>
+    </footer>
+
+    <!-- Bulma Navbar Toggle Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const $navbarBurgers = Array.prototype.slice.call(document.querySelectorAll('.navbar-burger'), 0);
+            $navbarBurgers.forEach( el => {
+                el.addEventListener('click', () => {
+                    const target = el.dataset.target;
+                    const $target = document.getElementById(target);
+                    el.classList.toggle('is-active');
+                    $target.classList.toggle('is-active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
