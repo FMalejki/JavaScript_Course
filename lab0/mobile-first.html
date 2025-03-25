@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Tytuł strony</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet"
+  href="mobile-first-sheet.css"
+  media="screen"
+  type="text/css">
+</head>
+<body>
+  <header>
+    <h1>Tytuł strony</h1>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="">Element 1</a></li>
+      <li><a href="">Element 2</a></li>
+    </ul>
+  </nav>
+
+  <aside>
+    <h1>Panel boczny</h1>
+    <h2>Ciekawe odsyłacze</h2>
+    <ul>
+      <li><a href="">Odsyłacz 1</a></li>
+      <li><a href="">Odsyłacz 2</a></li>
+      <li><a href="">Odsyłacz 3</a></li>
+    </ul>
+  </aside>
+
+  <main>
+    <h1>Treść strony</h1>
+    <blockquote>
+      Natenczas Wojski chwycił na taśmie przypięty Swój róg bawoli, długi, cętkowany, kręty Jak wąż boa, oburącz do ust go przycisnął, Wzdął policzki jak banię, w oczach krwią zabłysnął, Zasunął wpół powieki, wciągnął w głąb pół brzucha I do płuc wysłał z niego cały zapas ducha, I zagrał: róg jak wicher, wirowatym dechem Niesie w puszczę muzykę i podwaja echem. Umilkli strzelcy, stali szczwacze zadziwieni Mocą, czystością, dziwną harmoniją pieni. Starzec cały kunszt, którym niegdyś w lasach słynął, Jeszcze raz przed uszami myśliwców rozwinął; Napełnił wnet, ożywił knieje i dąbrowy, Jakby psiarnię w nie wpuścić i rozpoczął łowy. Bo w graniu była łowów historyja krótka: Zrazu odzew dźwięczący, rześki: to pobudka; Potem jęki po jękach skomlą: to psów granie; A gdzieniegdzie ton twardszy jak grzmot: to strzelanie.
+    </blockquote>
+  </main>
+
+  <footer>
+    <a href="mailto:your.email.address">Imię Nazwisko</a>
+  </footer>
+
+  <script>
+    let lastScrollTop = 0;
+    window.addEventListener('scroll', function() {
+      let st = window.pageYOffset || document.documentElement.scrollTop;
+      if (st > lastScrollTop){
+        document.body.classList.remove('scroll-up');
+        document.body.classList.add('scroll-down');
+      } else {
+        document.body.classList.remove('scroll-down');
+        document.body.classList.add('scroll-up');
+      }
+      lastScrollTop = st <= 0 ? 0 : st;
+    });
+  </script>
+</body>
+</html>
