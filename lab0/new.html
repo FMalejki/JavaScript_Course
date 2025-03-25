@@ -69,6 +69,20 @@
     <a href="mailto:your.email.address">Imię Nazwisko</a>
   </footer>
 </body>
+<script>
+    let lastScrollTop = 0;
+    window.addEventListener('scroll', function() {
+      let st = window.pageYOffset || document.documentElement.scrollTop;
+      if (st > lastScrollTop){
+        document.body.classList.remove('scroll-up');
+        document.body.classList.add('scroll-down');
+      } else {
+        document.body.classList.remove('scroll-down');
+        document.body.classList.add('scroll-up');
+      }
+      lastScrollTop = st <= 0 ? 0 : st;
+    });
+  </script>
 </html>
 
 Zmodyfikuj zawartość pliku 'sheet.css' (tutoriale: 1, 2 oraz 3) tak, aby otrzymać stronę WWW o wyglądzie takim, jak pokazano poniżej.

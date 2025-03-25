@@ -1,3 +1,24 @@
+:root {
+    --text-color-initial: #333333;
+    --text-color-final: #ff6b6b;
+    scroll-behavior: smooth;
+}
+
+@keyframes scrollDownColorChange {
+    from { color: var(--text-color-initial); }
+    to { color: var(--text-color-final); }
+}
+
+@keyframes scrollUpColorChange {
+    from { color: var(--text-color-final); }
+    to { color: var(--text-color-initial); }
+}
+
+@keyframes pulsing {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(0.95); }
+}
+
 body, h1, h2, ul, li, blockquote {
     margin: 0;
     padding: 0;
@@ -22,6 +43,14 @@ body {
     margin: 0 auto;
     padding: 20px;
     background-color: #f4f4f4;
+}
+
+body.scroll-down h1 {
+    animation: scrollDownColorChange 1s forwards;
+}
+
+body.scroll-up h1 {
+    animation: scrollUpColorChange 1s forwards;
 }
 
 header {
@@ -70,4 +99,6 @@ footer {
     clear: both;
     padding: 15px;
     margin-top: 20px;
+    animation: pulsing 2s infinite;
+    transition: all 0.3s ease;
 }
