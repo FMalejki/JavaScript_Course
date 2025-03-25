@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hotel "Student"</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.12.0/cdn.min.js"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'hotel-purple': '#6366f1',
+                        'hotel-azure': '#0080ff'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-100 font-sans flex flex-col min-h-screen" x-data="{ mobileMenu: false }">
+    <header class="sticky top-0 z-50 bg-hotel-azure text-white py-4 shadow-md">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <div class="text-xl font-bold">Hotel "Student"</div>
+            
+            <div class="md:hidden">
+                <button @click="mobileMenu = !mobileMenu" class="focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <nav class="hidden md:flex space-x-6">
+                <div class="relative group">
+                    <a href="#" class="hover:text-gray-200">Oferta</a>
+                    <div class="absolute hidden group-hover:block bg-white text-black shadow-lg rounded-md mt-2 py-2 w-48">
+                        <a href="#" class="block px-4 py-2 hover:bg-gray-100">Pokoje</a>
+                        <a href="#" class="block px-4 py-2 hover:bg-gray-100">Restauracja</a>
+                    </div>
+                </div>
+                <a href="#" class="hover:text-gray-200">Zarezerwuj</a>
+            </nav>
+        </div>
+
+        <div x-show="mobileMenu" class="md:hidden">
+            <div class="px-4 pt-2 pb-4 space-y-2">
+                <a href="#" class="block py-2 border-b">Oferta pokoi</a>
+                <a href="#" class="block py-2 border-b">Restauracja</a>
+                <a href="#" class="block py-2">Zarezerwuj</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow container mx-auto px-4 py-8 max-w-6xl">
+        <div class="space-y-6">
+            <div class="bg-white shadow-md rounded-lg overflow-hidden">
+                <div class="p-6">
+                    <div class="w-full h-64 md:h-96 overflow-hidden">
+                        <img 
+                            src="./static/KrkMainSq.jpg" 
+                            alt="Kraków Main Square" 
+                            class="w-full h-full object-cover"
+                        />
+                    </div>
+                    <h2 class="text-xl font-semibold text-gray-700 mb-4">Dostępne terminy</h2>
+                    <div class="overflow-x-auto">
+                        <table class="w-full border-collapse border border-gray-300">
+                            <thead>
+                                <tr class="bg-gray-100">
+                                    <th class="border p-2">Miesiąc</th>
+                                    <th class="border p-2">Dni</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="border p-2 text-center">VII</td>
+                                    <td class="border p-2 text-center">14-21, 30-31</td>
+                                </tr>
+                                <tr>
+                                    <td class="border p-2 text-center">VIII</td>
+                                    <td class="border p-2 text-center">1-12</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <div class="mt-6">
+                            <button class="w-full bg-hotel-purple text-white py-3 rounded-md hover:bg-indigo-600 transition duration-300">
+                                Zarezerwuj
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid sm:grid-cols-1 md:grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="bg-white shadow-md rounded-lg overflow-hidden">
+                    <div class="p-6">
+                        <h2 class="text-xl font-semibold text-gray-700 mb-4">Opcje noclegu</h2>
+                        <div class="grid grid-cols-1 gap-4">
+                            <div>
+                                <h3 class="font-semibold mb-2">Pokój Ekonomiczny</h3>
+                                <div class="bg-gray-100 rounded-lg overflow-hidden">
+                                    <img 
+                                        src="./static/hotelRoom.webp" 
+                                        alt="Pokój ekonomiczny" 
+                                        class="w-full h-48 object-cover"
+                                    />
+                                </div>
+                                <ul class="list-disc list-inside mt-2">
+                                    <li>Do 2 osób</li>
+                                    <li>Wspólna łazienka</li>
+                                    <li>Cena: 50 zł/noc</li>
+                                </ul>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold mb-2">Pokój Standard</h3>
+                                <div class="bg-gray-100 rounded-lg overflow-hidden">
+                                    <img 
+                                        src="./static/hotelRoomV2.jpg" 
+                                        alt="Pokój standard" 
+                                        class="w-full h-48 object-cover"
+                                    />
+                                </div>
+                                <ul class="list-disc list-inside mt-2">
+                                    <li>Do 3 osób</li>
+                                    <li>Własna łazienka</li>
+                                    <li>Cena: 80 zł/noc</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white shadow-md rounded-lg overflow-hidden">
+                    <div class="p-6">
+                        <h2 class="text-xl font-semibold text-gray-700 mb-4">Adres</h2>
+                        <div class="bg-gray-100 rounded-lg overflow-hidden mb-4">
+                            <img 
+                                src="./static/adress.jpg" 
+                                alt="Lokalizacja hotelu" 
+                                class="w-full h-48 object-cover"
+                            />
+                        </div>
+                        <p><strong>Adres:</strong> ul. Studencka 12</p>
+                        <p><strong>Miasto:</strong> Kraków</p>
+                        <p><strong>Kod pocztowy:</strong> 30-100</p>
+                    </div>
+                    <div class="p-6">
+                        <h2 class="text-xl font-semibold text-gray-700 mb-4">Dojazd</h2>
+                        <div class="bg-gray-100 rounded-lg overflow-hidden mb-4">
+                            <img 
+                                src="./static/taxi.jpeg" 
+                                alt="Lokalizacja hotelu" 
+                                class="w-full h-48 object-cover"
+                            />
+                        </div>
+                        <p><strong>Transport:</strong> Lotnisko Kraków Balice</p>
+                        <p><strong>Taksówki:</strong> Bolt, Uber</p>
+                        <p><strong>Komunikacja miejska:</strong> MPK Kraków</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white shadow-md rounded-lg overflow-hidden">
+                <div class="p-6">
+                    <h2 class="text-xl font-semibold text-gray-700 mb-4">Atrakcje miasta</h2>
+                    <div class="h-full w-full aspect-w-16 aspect-h-9">
+                        <iframe 
+                            src="https://www.youtube.com/embed/6eUvzOFR2nQ" 
+                            title="Atrakcje Krakowa" 
+                            frameborder="0" 
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                            allowfullscreen
+                            class="w-full h-full"
+                        ></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-hotel-azure text-white py-4">
+        <div class="container mx-auto px-4 text-right">
+            <span>&copy; Hotel studencki</span>
+        </div>
+    </footer>
+</body>
+</html>
