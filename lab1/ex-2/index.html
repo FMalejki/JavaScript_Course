@@ -1,0 +1,70 @@
+<!-- @author Stanisław Polak <polak@agh.edu.pl> -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Mocha tests</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/mocha/mocha.css">
+    <style>
+        nav {
+            display: flex;
+            align-items: center;
+            background-color: #f4f4f4;
+            padding: 10px;
+        }
+        canvas {
+            display: inline-block;
+            vertical-align: middle;
+            width: 100px;
+            height: 100px;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <!-- Canvas zastępujący nazwę aplikacji -->
+        <canvas id="logoCanvas" width="400" height="400"></canvas>
+    </nav>
+    <div id="mocha"></div>
+    <script src="zadanie2.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/mocha/mocha.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chai/chai.js"></script>
+    <script type="module">
+        import { should } from 'https://cdn.jsdelivr.net/npm/chai/chai.js';
+        import { test_sum, test_string_operations } from './zadanie2.test.js';
+        should();
+        mocha.setup('bdd');
+        mocha.checkLeaks();
+        // Początek bloku wywołań funkcji testujących
+        test_sum()
+        test_string_operations()
+        // Koniec bloku wywołań funkcji testujących
+        mocha.run();
+
+        // Rysowanie logo w canvasie
+        const canvas = document.getElementById('logoCanvas');
+        const ctx = canvas.getContext('2d');
+
+        ctx.fillStyle = "#3498db";
+        ctx.fillRect(50, 100, 200, 100);
+
+        ctx.beginPath();
+        ctx.arc(200, 200, 150, 0, 4 * Math.PI);
+        ctx.fill();
+        ctx.closePath();
+
+        ctx.beginPath();
+        ctx.moveTo(100, 200);
+        ctx.lineTo(250, 300);
+        ctx.strokeStyle = "#2ecc71";
+        ctx.lineWidth = 20;
+        ctx.stroke();
+        ctx.closePath();
+
+        ctx.fillStyle = "#e74c3c";
+        ctx.fillRect(200, 100, 20, 20);
+        ctx.fillRect(310, 170, 20, 20);
+    </script>
+</body>
+</html>
