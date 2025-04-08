@@ -1,0 +1,47 @@
+<!-- @author Stanisław Polak <polak@agh.edu.pl> -->
+<!DOCTYPE html>
+<html lang="pl">
+    <head>
+    <meta charset="UTF-8">
+    <title>Płótno</title>
+    <script>
+        "use strict"; // Nie wyłączaj trybu ścisłego    
+        window.onload = function () {
+            const canvas = document.getElementById('canvas'); // Pobranie elementu canvas za pomocą getElementById
+            const ctx = canvas.getContext('2d');              // Utworzenie obiektu 'CanvasRenderingContext2D'
+
+            ctx.fillStyle = "#3498db";
+            ctx.fillRect(50, 100, 200, 100);
+
+            ctx.beginPath();
+            ctx.arc(200, 200, 150, 0, 4 * Math.PI);
+            
+            ctx.fill();
+            ctx.closePath();
+
+            ctx.beginPath();
+            ctx.moveTo(100, 200);
+            ctx.lineTo(250, 300);
+            ctx.strokeStyle = "#2ecc71";
+            ctx.lineWidth = 20;
+            ctx.stroke();
+            ctx.closePath();
+
+
+            ctx.fillStyle = "#e74c3c";
+
+            ctx.fillRect(200, 100, 20, 20);
+
+            ctx.fillRect(310, 170, 20, 20);
+        }; 
+    </script>
+    </head>
+    <body>
+    <main>
+        <h1>Płótno</h1>
+        <canvas id="canvas" width="400" height="400" style="border:1px solid #000000;">
+        Wygląda na to, że twoja przeglądarka nie obsługuje elementu "canvas" 
+        </canvas>
+    </main>
+    </body>
+</html>

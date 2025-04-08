@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rezerwacja</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/alpinejs/3.12.0/cdn.min.js"></script>
+    <script>
+        const rooms = [
+            { number: 101, capacity: 2 },
+            { number: 102, capacity: 3 },
+            { number: 103, capacity: 1 }
+        ];
+
+        const reservations = JSON.parse(localStorage.getItem('reservations')) || [];
+
+        function addReservation() {
+            const input = document.forms.reservationForm.elements.inputField.value.trim();
+            const [roomNumber, guestName] = input.split(',').map(item => item.trim());
+
+            if (!roomNumber || !guestName) {
+                console.error("Podaj numer pokoju i nazwisko gościa w formacie: numer, nazwisko");
+                return;
+            }
+
+            const room = rooms.find(r => r.number == roomNumber);
+            if (!room) {
+                console.error(`Pokój ${roomNumber} nie istnieje.`);
+                return;
+            }
+
+            const roomReservations = reservations.filter(r => r.roomNumber == roomNumber);
+            if (roomReservations.length >= room.capacity) {
+                console.error(`Pokój ${roomNumber} jest już w pełni zarezerwowany.`);
+                return;
+            }
+
+            reservations.push({ roomNumber, guestName });
+            localStorage.setItem('reservations', JSON.stringify(reservations));
+            console.log(`Dodano rezerwację: Pokój ${roomNumber}, Gość: ${guestName}`);
+        }
+
+        function removeReservation() {
+            const guestName = document.forms.reservationForm.elements.inputField.value.trim();
+
+            const index = reservations.findIndex(r => r.guestName === guestName);
+            if (index === -1) {
+                console.error(`Nie znaleziono rezerwacji dla gościa: ${guestName}`);
+                return;
+            }
+
+            const removed = reservations.splice(index, 1);
+            localStorage.setItem('reservations', JSON.stringify(reservations));
+            console.log(`Usunięto rezerwację: Pokój ${removed[0].roomNumber}, Gość: ${removed[0].guestName}`);
+        }
+
+        function listReservations() {
+            const roomNumber = document.forms.reservationForm.elements.inputField.value.trim();
+
+            const roomReservations = reservations.filter(r => r.roomNumber == roomNumber);
+            if (roomReservations.length === 0) {
+                console.log(`Brak rezerwacji dla pokoju ${roomNumber}`);
+                return;
+            }
+
+            console.log(`Rezerwacje dla pokoju ${roomNumber}:`);
+            roomReservations.forEach(r => console.log(`- Gość: ${r.guestName}`));
+        }
+    </script>
+</head>
+<body class="bg-gray-100 font-sans flex flex-col min-h-screen">
+    <header class="bg-hotel-azure text-white py-4 shadow-md">
+        <div class="container mx-auto px-4">
+            <h1 class="text-xl text-black font-bold">Rezerwacja</h1>
+        </div>
+    </header>
+
+    <main class="flex-grow container mx-auto px-4 py-8 max-w-6xl">
+        <form name="reservationForm" class="space-y-4">
+            <input 
+                type="text" 
+                name="inputField" 
+                placeholder="Wprowadź dane (np. 101, Jan Kowalski)" 
+                class="w-full p-2 border rounded"
+            />
+            <div class="flex space-x-4">
+                <button type="button" onclick="addReservation()" class="bg-green-500 text-white px-4 py-2 rounded">
+                    Dodaj
+                </button>
+                <button type="button" onclick="removeReservation()" class="bg-red-500 text-white px-4 py-2 rounded">
+                    Usuń
+                </button>
+                <button type="button" onclick="listReservations()" class="bg-blue-500 text-white px-4 py-2 rounded">
+                    Wyświetl
+                </button>
+            </div>
+        </form>
+    </main>
+
+    <footer class="bg-hotel-azure text-white py-4">
+        <div class="container mx-auto px-4 text-right">
+            <span>&copy; Hotel studencki</span>
+        </div>
+    </footer>
+</body>
+</html>
