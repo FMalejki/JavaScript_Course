@@ -1,0 +1,227 @@
+<!-- @author Stanisław Polak <polak@agh.edu.pl> -->
+
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+
+  <title>Tytuł strony</title>
+  <style>
+
+    @keyframes scrollDownColorChange {
+    from { color: var(--text-color-initial); }
+    to { color: var(--text-color-final); }
+    }
+
+    @keyframes scrollUpColorChange {
+        from { color: var(--text-color-final); }
+        to { color: var(--text-color-initial); }
+    }
+
+    @keyframes pulsing {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(0.95); }
+    }
+
+  </style>
+</head>
+<body>
+  <header class="azure bordered">
+    <!-- Page title -->
+    <!-- Background color: #EFF -->
+    <!-- Border color: #A8A8A8 -->
+
+    <h1>Tytuł strony</h1>
+  </header>
+
+  <nav class="white-bg bordered">
+    <!--Tutaj menu nawigacyjne / Here the navigation menu -->
+    <!-- left & right margin: 25px -->
+
+    <ul>
+      <li>
+        <a href="">Element 1</a>
+      </li>
+
+      <li>
+        <a href="">Element 2</a>
+      </li>
+    </ul>
+  </nav>
+  <!-- Tutaj treść panelu bocznego / Here the content of the side panel-->
+
+  <aside class="white-bg bordered">
+    <h1>Panel boczny</h1>
+
+    <h2>Ciekawe odsyłacze</h2>
+
+    <ul>
+      <li>
+        <a href="">Odsyłacz 1</a>
+      </li>
+
+      <li>
+        <a href="">Odsyłacz 2</a>
+      </li>
+
+      <li>
+        <a href="">Odsyłacz 3</a>
+      </li>
+    </ul>
+  </aside>
+
+  <main class="white-bg bordered" id="main-content">
+    <!--Tutaj treść strony / Here the content of the page -->
+
+    <h1>Treść strony</h1>
+  </main>
+
+  <footer class="white-bg bordered">
+    <!-- Tutaj treść stopki / Here the content of the footer -->
+    <a href="mailto:your.email.address">Imię Nazwisko</a>
+  </footer>
+
+  <div class="form-container">
+    <form id="control-form">
+      <button type="button" id="set-button">Set</button>
+      <button type="button" id="delete-button">Delete</button>
+      <button type="button" id="add-button">Add</button>
+    </form>
+  </div>
+
+  <script>
+    const wojskiText = [
+      "Natenczas Wojski chwycił na taśmie przypięty Swój róg bawoli, długi, cętkowany, kręty Jak wąż boa, oburącz do ust go przycisnął, Wzdął policzki jak banię, w oczach krwią zabłysnął, Zasunął wpół powieki, wciągnął w głąb pół brzucha I do płuc wysłał z niego cały zapas ducha, I zagrał: róg jak wicher, wirowatym dechem Niesie w puszczę muzykę i podwaja echem.",
+      "Umilkli strzelcy, stali szczwacze zadziwieni Mocą, czystością, dziwną harmoniją pieni. Starzec cały kunszt, którym niegdyś w lasach słynął, Jeszcze raz przed uszami myśliwców rozwinął; Napełnił wnet, ożywił knieje i dąbrowy, Jakby psiarnię w nie wpuścił i rozpoczął łowy.",
+      "Bo w graniu była łowów historyja krótka: Zrazu odzew dźwięczący, rześki: to pobudka; Potem jęki po jękach skomlą: to psów granie; A gdzieniegdzie ton twardszy jak grzmot: to strzelanie."
+    ];
+    
+    let currentParagraph = 0;
+    
+    const setButton = document.getElementById('set-button');
+    const deleteButton = document.getElementById('delete-button');
+    const addButton = document.getElementById('add-button');
+    const mainContent = document.getElementById('main-content');
+    
+    function setStyles() {
+      const elements = {
+        'body': document.body,
+        'header': document.querySelector('header'),
+        'nav': document.querySelector('nav'),
+        'aside': document.querySelector('aside'),
+        'main': document.querySelector('main'),
+        'footer': document.querySelector('footer')
+      };
+      
+      elements['body'].style.fontFamily = 'Arial, sans-serif';
+      elements['body'].style.display = 'block';
+      elements['body'].style.lineHeight = '1.6';
+      elements['body'].style.margin = '0 auto';
+      elements['body'].style.padding = '20px';
+      elements['body'].style.backgroundColor = '#f4f4f4';
+      
+      elements['header'].style.padding = '15px';
+      elements['header'].style.marginBottom = '20px';
+      
+      elements['nav'].style.marginBottom = '20px';
+      elements['nav'].style.paddingLeft = '20px';
+      elements['nav'].style.width = '10%';
+      
+      const navUl = document.querySelector('nav ul');
+      if (navUl) {
+        navUl.style.marginLeft = '20px';
+      }
+      
+      elements['aside'].style.float = 'right';
+      elements['aside'].style.width = '50%';
+      elements['aside'].style.padding = '15px';
+      elements['aside'].style.marginLeft = '20px';
+      elements['aside'].style.marginTop = '-80px';
+      
+      const asideUl = document.querySelector('aside ul');
+      if (asideUl) {
+        asideUl.style.marginLeft = '20px';
+      }
+      
+      elements['main'].style.width = '30%';
+      elements['main'].style.padding = '20px';
+      elements['main'].style.marginRight = '30%';
+      
+      const blockquotes = document.querySelectorAll('blockquote');
+      blockquotes.forEach(blockquote => {
+        blockquote.style.fontStyle = 'italic';
+        blockquote.style.color = '#555';
+        blockquote.style.borderLeft = '4px solid #ddd';
+        blockquote.style.paddingLeft = '15px';
+        blockquote.style.margin = '15px 0';
+      });
+      
+      elements['footer'].style.clear = 'both';
+      elements['footer'].style.padding = '15px';
+      elements['footer'].style.marginTop = '20px';
+      elements['footer'].style.animation = 'pulsing 2s infinite';
+      elements['footer'].style.transition = 'all 0.3s ease';
+      
+      const azureElements = document.querySelectorAll('.azure');
+      azureElements.forEach(element => {
+        element.style.backgroundColor = '#EFF';
+      });
+      
+      const borderedElements = document.querySelectorAll('.bordered');
+      borderedElements.forEach(element => {
+        element.style.border = '2px solid #A8A8A8';
+      });
+      
+      const whiteBgElements = document.querySelectorAll('.white-bg');
+      whiteBgElements.forEach(element => {
+        element.style.backgroundColor = 'white';
+      });
+      
+      const resetElements = document.querySelectorAll(' h1, h2, ul, li, blockquote');
+      resetElements.forEach(element => {
+        element.style.margin = '0';
+        element.style.padding = '0';
+      });
+    }
+    
+    function deleteStyles() {
+      const allElements = document.querySelectorAll('*');
+      allElements.forEach(element => {
+        element.removeAttribute('style');
+      });
+    }
+    
+    function addParagraph() {
+      if (currentParagraph < wojskiText.length) {
+        const blockquote = document.createElement('blockquote');
+        const textNode = document.createTextNode(wojskiText[currentParagraph]);
+        blockquote.appendChild(textNode);
+        
+        mainContent.appendChild(blockquote);
+        
+        currentParagraph++;
+        
+        if (currentParagraph >= wojskiText.length) {
+          addButton.disabled = true;
+        }
+      }
+    }
+    
+    setButton.addEventListener('click', setStyles);
+    deleteButton.addEventListener('click', deleteStyles);
+    addButton.addEventListener('click', addParagraph);
+    
+    let lastScrollTop = 0;
+    window.addEventListener('scroll', function() {
+      let st = window.pageYOffset || document.documentElement.scrollTop;
+      if (st > lastScrollTop){
+        document.body.classList.remove('scroll-up');
+        document.body.classList.add('scroll-down');
+      } else {
+        document.body.classList.remove('scroll-down');
+        document.body.classList.add('scroll-up');
+      }
+      lastScrollTop = st <= 0 ? 0 : st;
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rezerwacja - Hotel "Student"</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'hotel-purple': '#6366f1',
+                        'hotel-azure': '#0080ff'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-100 font-sans flex flex-col min-h-screen">
+    <header class="sticky top-0 z-50 bg-hotel-azure text-white py-4 shadow-md">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <a href="hotel.html" class="text-xl font-bold">Hotel "Student"</a>
+            
+            <div class="md:hidden">
+                <button id="mobileMenuButton" class="focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <nav class="hidden md:flex space-x-6">
+                <div class="relative group">
+                    <a href="#" class="hover:text-gray-200">Oferta</a>
+                    <div class="absolute hidden group-hover:block bg-white text-black shadow-lg rounded-md mt-2 py-2 w-48">
+                        <a href="#" class="block px-4 py-2 hover:bg-gray-100">Pokoje</a>
+                        <a href="#" class="block px-4 py-2 hover:bg-gray-100">Restauracja</a>
+                    </div>
+                </div>
+                <a href="reservation.html" class="hover:text-gray-200 font-bold">Zarezerwuj</a>
+            </nav>
+        </div>
+
+        <div id="mobileMenu" class="hidden md:hidden">
+            <div class="px-4 pt-2 pb-4 space-y-2">
+                <a href="#" class="block py-2 border-b">Oferta pokoi</a>
+                <a href="#" class="block py-2 border-b">Restauracja</a>
+                <a href="reservation.html" class="block py-2 font-bold">Zarezerwuj</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow container mx-auto px-4 py-8 max-w-6xl">
+        <h1 class="text-2xl font-bold text-gray-800 mb-6">Rezerwacja pokojów</h1>
+        <p class="mb-6 text-gray-600">Aby dokonać rezerwacji, kliknij na kartę pokoju.</p>
+
+        <div id="roomsList" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        </div>
+
+        <div id="roomModal" class="fixed inset-0 bg-black bg-opacity-50 items-center justify-center z-50 hidden">
+            <div class="bg-white rounded-lg w-full max-w-md p-6 shadow-lg m-auto mt-24">
+                <div class="flex justify-between items-center mb-4">
+                    <h3 id="modalRoomTitle" class="text-xl font-bold">
+                        Pokój
+                    </h3>
+                    <button id="closeModal" class="text-gray-500 hover:text-gray-700">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="mb-4">
+                    <p><strong>Cena:</strong> <span id="modalRoomPrice"></span> zł/noc</p>
+                    <p><strong>Pojemność:</strong> <span id="modalRoomCapacity"></span> osób</p>
+                    <p>
+                        <strong>Status:</strong> 
+                        <span id="modalRoomStatus"></span>
+                    </p>
+                </div>
+
+                <div id="currentReservationsSection" class="mb-4">
+                    <h4 class="font-medium text-gray-700 mb-2">Aktualne rezerwacje:</h4>
+                    <ul id="guestsList" class="bg-gray-50 rounded p-2">
+                    </ul>
+                </div>
+
+                <div id="addReservationSection">
+                    <h4 class="font-medium text-gray-700 mb-2">Dodaj rezerwację:</h4>
+                    <div class="flex space-x-2">
+                        <input 
+                            type="text" 
+                            id="newGuestNameInput"
+                            placeholder="Imię i nazwisko gościa" 
+                            class="flex-grow p-2 border rounded"
+                        />
+                        <button 
+                            id="addReservationButton"
+                            class="bg-hotel-purple text-white px-4 py-2 rounded hover:bg-indigo-600 transition duration-300"
+                        >
+                            Rezerwuj
+                        </button>
+                    </div>
+                </div>
+
+                <div id="noSpotsMessage" class="mt-4 text-center text-red-600 hidden">
+                    Ten pokój jest w pełni zarezerwowany.
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer class="bg-hotel-azure text-white py-4">
+        <div class="container mx-auto px-4 text-right">
+            <span>&copy; Hotel studencki</span>
+        </div>
+    </footer>
+
+    <script>
+        const HotelApp = {
+            rooms: [
+                { number: 101, capacity: 2, type: 'Ekonomiczny', price: 50 },
+                { number: 102, capacity: 3, type: 'Standard', price: 80 }, 
+                { number: 103, capacity: 1, type: 'Ekonomiczny', price: 50 }
+            ],
+            reservations: [],
+            selectedRoom: null,
+            
+            init() {
+                this.loadReservations();
+                
+                this.updateRoomAvailability();
+                
+                this.renderRooms();
+                
+                this.setupEventListeners();
+            },
+            
+            loadReservations() {
+                const savedReservations = localStorage.getItem('reservations');
+                if (savedReservations) {
+                    this.reservations = JSON.parse(savedReservations);
+                }
+            },
+            
+            saveReservations() {
+                localStorage.setItem('reservations', JSON.stringify(this.reservations));
+            },
+            
+            updateRoomAvailability() {
+                this.rooms.forEach(room => {
+                    const roomReservations = this.reservations.filter(r => r.roomNumber == room.number);
+                    room.availableSpots = room.capacity - roomReservations.length;
+                    room.guests = roomReservations.map(r => r.guestName);
+                });
+            },
+            
+            renderRooms() {
+                const roomsList = document.getElementById('roomsList');
+                roomsList.innerHTML = '';
+                
+                this.rooms.forEach(room => {
+                    const roomCard = document.createElement('div');
+                    roomCard.className = `shadow-md rounded-lg overflow-hidden transition-transform duration-300 transform hover:scale-105 cursor-pointer ${room.availableSpots > 0 ? 'bg-white' : 'bg-gray-200'}`;
+                    roomCard.dataset.roomNumber = room.number;
+                    
+                    roomCard.innerHTML = `
+                        <div class="p-6">
+                            <h2 class="text-xl font-semibold text-gray-700 mb-2">Pokój ${room.number} - ${room.type}</h2>
+                            <div class="flex items-center justify-between mb-4">
+                                <span class="text-sm bg-hotel-purple text-white py-1 px-3 rounded-full">${room.price} zł/noc</span>
+                                <span class="${room.availableSpots > 0 ? 'text-green-600' : 'text-red-600'}">
+                                    ${room.availableSpots > 0 ? `Dostępne miejsca: ${room.availableSpots}/${room.capacity}` : 'Brak miejsc'}
+                                </span>
+                            </div>
+                            
+                            ${room.guests && room.guests.length > 0 ? `
+                                <div>
+                                    <p class="font-medium text-gray-700 mb-2">Aktualne rezerwacje:</p>
+                                    <ul class="list-disc list-inside">
+                                        ${room.guests.map(guest => `<li>${guest}</li>`).join('')}
+                                    </ul>
+                                </div>
+                            ` : ''}
+                        </div>
+                    `;
+                    
+                    roomCard.addEventListener('click', () => this.showRoomDetails(room.number));
+                    roomsList.appendChild(roomCard);
+                });
+            },
+            
+            setupEventListeners() {
+                const mobileMenuButton = document.getElementById('mobileMenuButton');
+                const mobileMenu = document.getElementById('mobileMenu');
+                
+                mobileMenuButton.addEventListener('click', () => {
+                    if (mobileMenu.classList.contains('hidden')) {
+                        mobileMenu.classList.remove('hidden');
+                    } else {
+                        mobileMenu.classList.add('hidden');
+                    }
+                });
+                
+                document.getElementById('closeModal').addEventListener('click', () => this.closeRoomDetails());
+                document.getElementById('roomModal').addEventListener('click', (event) => {
+                    if (event.target === document.getElementById('roomModal')) {
+                        this.closeRoomDetails();
+                    }
+                });
+                
+                document.getElementById('addReservationButton').addEventListener('click', () => {
+                    const guestName = document.getElementById('newGuestNameInput').value;
+                    if (this.selectedRoom) {
+                        this.addReservation(this.selectedRoom.number, guestName);
+                    }
+                });
+                
+                document.getElementById('newGuestNameInput').addEventListener('keyup', (event) => {
+                    if (event.key === 'Enter') {
+                        const guestName = document.getElementById('newGuestNameInput').value;
+                        if (this.selectedRoom) {
+                            this.addReservation(this.selectedRoom.number, guestName);
+                        }
+                    }
+                });
+            },
+            
+            showRoomDetails(roomNumber) {
+                this.selectedRoom = this.rooms.find(r => r.number == roomNumber);
+                if (!this.selectedRoom) return;
+                
+                const modal = document.getElementById('roomModal');
+                const modalTitle = document.getElementById('modalRoomTitle');
+                const modalPrice = document.getElementById('modalRoomPrice');
+                const modalCapacity = document.getElementById('modalRoomCapacity');
+                const modalStatus = document.getElementById('modalRoomStatus');
+                const guestsList = document.getElementById('guestsList');
+                const currentReservationsSection = document.getElementById('currentReservationsSection');
+                const addReservationSection = document.getElementById('addReservationSection');
+                const noSpotsMessage = document.getElementById('noSpotsMessage');
+                
+                modalTitle.textContent = `Pokój ${this.selectedRoom.number} - ${this.selectedRoom.type}`;
+                modalPrice.textContent = this.selectedRoom.price;
+                modalCapacity.textContent = this.selectedRoom.capacity;
+                
+                if (this.selectedRoom.availableSpots > 0) {
+                    modalStatus.textContent = `Dostępne miejsca: ${this.selectedRoom.availableSpots}/${this.selectedRoom.capacity}`;
+                    modalStatus.className = 'text-green-600';
+                    addReservationSection.classList.remove('hidden');
+                    noSpotsMessage.classList.add('hidden');
+                } else {
+                    modalStatus.textContent = 'Brak miejsc';
+                    modalStatus.className = 'text-red-600';
+                    addReservationSection.classList.add('hidden');
+                    noSpotsMessage.classList.remove('hidden');
+                }
+                
+                guestsList.innerHTML = '';
+                if (this.selectedRoom.guests && this.selectedRoom.guests.length > 0) {
+                    this.selectedRoom.guests.forEach(guest => {
+                        const listItem = document.createElement('li');
+                        listItem.className = 'flex justify-between items-center py-1';
+                        
+                        const guestName = document.createElement('span');
+                        guestName.textContent = guest;
+                        
+                        const deleteButton = document.createElement('button');
+                        deleteButton.className = 'text-red-500 hover:text-red-700';
+                        deleteButton.setAttribute('aria-label', 'Usuń rezerwację');
+                        deleteButton.innerHTML = `
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                            </svg>
+                        `;
+                        
+                        deleteButton.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            this.removeReservation(this.selectedRoom.number, guest);
+                        });
+                        
+                        listItem.appendChild(guestName);
+                        listItem.appendChild(deleteButton);
+                        guestsList.appendChild(listItem);
+                    });
+                    
+                    currentReservationsSection.classList.remove('hidden');
+                } else {
+                    currentReservationsSection.classList.add('hidden');
+                }
+                
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+                
+                document.getElementById('newGuestNameInput').value = '';
+            },
+            
+            closeRoomDetails() {
+                document.getElementById('roomModal').classList.add('hidden');
+                document.getElementById('roomModal').classList.remove('flex');
+                this.selectedRoom = null;
+            },
+            
+            addReservation(roomNumber, guestName) {
+                if (!guestName || guestName.trim() === '') {
+                    window.alert('Proszę podać nazwisko gościa');
+                    return;
+                }
+                
+                const room = this.rooms.find(r => r.number == roomNumber);
+                if (!room) {
+                    window.alert(`Pokój ${roomNumber} nie istnieje.`);
+                    return;
+                }
+                
+                const roomReservations = this.reservations.filter(r => r.roomNumber == roomNumber);
+                if (roomReservations.length >= room.capacity) {
+                    window.alert(`Pokój ${roomNumber} jest już w pełni zarezerwowany.`);
+                    return;
+                }
+                
+                this.reservations.push({ roomNumber, guestName });
+                this.saveReservations();
+                this.updateRoomAvailability();
+                this.renderRooms();
+                
+                this.showRoomDetails(roomNumber);
+                
+                document.getElementById('newGuestNameInput').value = '';
+            },
+            
+            removeReservation(roomNumber, guestName) {
+                const index = this.reservations.findIndex(r => r.roomNumber == roomNumber && r.guestName === guestName);
+                if (index === -1) {
+                    window.alert(`Nie znaleziono rezerwacji dla gościa: ${guestName} w pokoju ${roomNumber}`);
+                    return;
+                }
+                
+                this.reservations.splice(index, 1);
+                this.saveReservations();
+                this.updateRoomAvailability();
+                this.renderRooms();
+                
+                this.showRoomDetails(roomNumber);
+            }
+        };
+        
+        document.addEventListener('DOMContentLoaded', () => {
+            HotelApp.init();
+        });
+    </script>
+</body>
+</html>
