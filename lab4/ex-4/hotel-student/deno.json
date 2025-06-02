@@ -1,0 +1,16 @@
+
+{
+  "compilerOptions": {
+    "allowJs": true,
+    "lib": ["deno.window"],
+    "strict": true
+  },
+  "tasks": {
+    "dev": "deno run --allow-net --allow-read --allow-write --watch src/main.ts"
+  },
+  "imports": {
+    "oak": "https://deno.land/x/oak@v12.6.1/mod.ts",
+    "eta": "https://deno.land/x/eta@v3.1.0/src/index.ts",
+    "mongo": "https://deno.land/x/mongo@v0.32.0/mod.ts"
+  }
+}

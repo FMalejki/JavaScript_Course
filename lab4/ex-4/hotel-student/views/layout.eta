@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= it.title %></title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'hotel-purple': '#6366f1',
+                        'hotel-azure': '#0080ff'
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-100 font-sans flex flex-col min-h-screen">
+    <header class="sticky top-0 z-50 bg-hotel-azure text-white py-4 shadow-md">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <a href="/" class="text-xl font-bold">Hotel "Student"</a>
+            
+            <div class="md:hidden">
+                <button onclick="toggleMobileMenu()" class="focus:outline-none">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+            </div>
+
+            <nav class="hidden md:flex space-x-6">
+                <div class="relative group">
+                    <a href="#" class="hover:text-gray-200">Oferta</a>
+                    <div class="absolute hidden group-hover:block bg-white text-black shadow-lg rounded-md mt-2 py-2 w-48">
+                        <a href="#" class="block px-4 py-2 hover:bg-gray-100">Pokoje</a>
+                        <a href="#" class="block px-4 py-2 hover:bg-gray-100">Restauracja</a>
+                    </div>
+                </div>
+                <a href="/reservation" class="hover:text-gray-200 <%= it.currentPage === 'reservation' ? 'font-bold' : '' %>">Zarezerwuj</a>
+            </nav>
+        </div>
+
+        <div id="mobileMenu" class="hidden md:hidden">
+            <div class="px-4 pt-2 pb-4 space-y-2">
+                <a href="#" class="block py-2 border-b">Oferta pokoi</a>
+                <a href="#" class="block py-2 border-b">Restauracja</a>
+                <a href="/reservation" class="block py-2 <%= it.currentPage === 'reservation' ? 'font-bold' : '' %>">Zarezerwuj</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="flex-grow container mx-auto px-4 py-8 max-w-6xl">
+        <%~ it.body %>
+    </main>
+
+    <footer class="bg-hotel-azure text-white py-4">
+        <div class="container mx-auto px-4 text-right">
+            <span>&copy; Hotel studencki</span>
+        </div>
+    </footer>
+
+    <script>
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            if (mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.remove('hidden');
+            } else {
+                mobileMenu.classList.add('hidden');
+            }
+        }
+    </script>
+</body>
+</html>

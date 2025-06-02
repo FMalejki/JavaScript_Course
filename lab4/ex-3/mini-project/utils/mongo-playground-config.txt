@@ -1,0 +1,26 @@
+use("AGH"); // wybór lub utworzenie bazy danych
+
+db.createCollection("students");
+
+db.students.insertMany([
+  {
+    fname: "Jan",
+    lname: "Kowalski",
+    faculty: "WI"
+  },
+  {
+    fname: "Anna",
+    lname: "Nowak",
+    faculty: "WMS"
+  },
+  {
+    fname: "Piotr",
+    lname: "Zieliński",
+    faculty: "WIET"
+  },
+  {
+    fname: "Maria",
+    lname: "Wiśniewska",
+    faculty: "WI"
+  }
+]);

@@ -6,6 +6,12 @@ import { URLSearchParams,fileURLToPath } from 'url';
 const PORT = 8000;
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const FILE = join(__dirname, '../entries.txt');
+
+/**
+ * Generuje stronę HTML z wpisami i formularzem
+ * @param {string} entriesHtml - Sformatowane wpisy w HTML
+ * @returns {string} Kod HTML strony
+ */
 function renderPage(entriesHtml) {
     return `
 <!DOCTYPE html>
@@ -29,7 +35,11 @@ function renderPage(entriesHtml) {
 </html>
     `;
 }
-
+/**
+ * Formatuje surowe dane z pliku na HTML
+ * @param {string} rawData - Surowe dane z pliku tekstowego
+ * @returns {string} Sformatowane wpisy w HTML
+ */
 function formatEntries(rawData) {
     if (!rawData) return '<i>Brak wpisów.</i>';
     return rawData
@@ -42,6 +52,11 @@ function formatEntries(rawData) {
         .join('');
 }
 
+
+/**
+ * Serwer HTTP obsługujący księgę gości
+ * Obsługuje żądania GET (wyświetlanie wpisów) i POST (dodawanie wpisu)
+ */
 const server = createServer((req, res) => {
     if (req.method === 'GET' && req.url === '/') {
         readFile(FILE, 'utf-8', (err, data) => {
@@ -81,6 +96,9 @@ const server = createServer((req, res) => {
     }
 });
 
+/**
+ * Uruchamia serwer na zadanym porcie
+ */
 server.listen(PORT, () => {
     console.log(`Serwer działa na http://localhost:${PORT}/`);
 });

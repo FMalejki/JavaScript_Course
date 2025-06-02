@@ -1,0 +1,5 @@
+<%~ include('layout', { 
+    title: it.title, 
+    currentPage: 'reservation',
+    body: include('reservation_body', { rooms: it.rooms })
+}) %>
