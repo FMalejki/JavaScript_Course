@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-namespace
 import { Context } from "oak";
 import { ReservationService } from "../services/ReservationService.ts";
 import { Hotel } from "../types/Hotel.ts";

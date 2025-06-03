@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-namespace
 export namespace Hotel {
   export interface Room {
     _id?: string;

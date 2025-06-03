@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-namespace
 import { Hotel } from "../types/Hotel.ts";
 import { HotelDatabase } from "../database/Database.ts";
 

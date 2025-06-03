@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-namespace
 import { MongoClient, Database, Collection } from "mongo";
 import { Hotel } from "../types/Hotel.ts";
 
